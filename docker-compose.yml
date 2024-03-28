@@ -4,30 +4,40 @@ services:
   note:
     build:
       context: ./note
+    container_name: note-container
     ports:
       - "8082:8082"
     networks:
       - my-network
     depends_on:
       - mongo
+    environment:
+      SPRING_DATA_MONGODB_DATABASE: NoteDB
+      SPRING_DATA_MONGODB_PORT: 27017
     volumes:
       - note-data:/data/db
 
   patient:
     build:
       context: ./patient
+    container_name: patient-container
     ports:
       - "8081:8081"
     networks:
       - my-network
     depends_on:
       - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:33060/medilabo
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     volumes:
       - patient-data:/var/lib/mysql
 
-  reportRisk:
+  report-risk:
     build:
-      context: ./reportRisk
+      context: report-risk
+    container_name: report-risk-container
     ports:
       - "8084:8084"
     networks:
@@ -36,6 +46,7 @@ services:
   gateway:
     build:
       context: ./gateway
+    container_name: gateway-container
     ports:
       - "8080:8080"
     networks:
@@ -44,13 +55,15 @@ services:
   front:
     build:
       context: ./front
+    container_name: front-container
     ports:
-      - "3000:3000"
+      - "8090:8090"
     networks:
       - my-network
 
   mongo:
     image: mongo:latest
+    container_name: mongo
     ports:
       - "27017:27017"
     networks:
@@ -60,11 +73,12 @@ services:
 
   mysql:
     image: mysql:8.0.31
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: patient_db
+      MYSQL_DATABASE: medilabo
     ports:
-      - "3306:3306"
+      - "3307:33060"
     networks:
       - my-network
     volumes:
