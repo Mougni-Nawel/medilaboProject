@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   note:
-    build:
-      context: ./note
+    build: ./note
     container_name: note-container
     ports:
       - "8082:8082"
@@ -17,26 +16,24 @@ services:
     volumes:
       - note-data:/data/db
 
-  patient:
-    build:
-      context: ./patient
-    container_name: patient-container
+  patient-service:
+    build: ./patient
     ports:
       - "8081:8081"
     networks:
       - my-network
     depends_on:
-      - mysql
+      - mysqldb
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:33060/medilabo
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/medilabo"
+      - "SPRING_DATASOURCE_USERNAME=root"
+      - "SPRING_DATASOURCE_PASSWORD=password"
     volumes:
       - patient-data:/var/lib/mysql
+#    restart: on-failure
 
   report-risk:
-    build:
-      context: report-risk
+    build: ./report-risk
     container_name: report-risk-container
     ports:
       - "8084:8084"
@@ -44,8 +41,7 @@ services:
       - my-network
 
   gateway:
-    build:
-      context: ./gateway
+    build: ./gateway
     container_name: gateway-container
     ports:
       - "8080:8080"
@@ -53,8 +49,7 @@ services:
       - my-network
 
   front:
-    build:
-      context: ./front
+    build: ./front
     container_name: front-container
     ports:
       - "8090:8090"
@@ -71,14 +66,16 @@ services:
     volumes:
       - mongo-data:/data/db
 
-  mysql:
-    image: mysql:8.0.31
-    container_name: mysql
+  mysqldb:
+    image: mysql:8.0.32
+    container_name: mysqldb
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: medilabo
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=medilabo
+#      - MYSQL_USER=
+#      - MYSQL_PASSWORD=
     ports:
-      - "3307:33060"
+      - "3307:3306"
     networks:
       - my-network
     volumes:
@@ -92,3 +89,96 @@ volumes:
   mysql-data:
   note-data:
   patient-data:
+
+
+#local
+#services:
+#  front:
+#    build: ./front
+#    ports:
+#      - "8090:8090"
+#
+#  gateway:
+#    build: ./gateway
+#    ports:
+#      - "8080:8080"
+#
+#  patient:
+#    build: ./patient
+#    ports:
+#      - "8081:8081"
+#
+#  note:
+#    build: ./note
+#    ports:
+#      - "8082:8082"
+#
+#  report-risk:
+#    build: ./report-risk
+#    ports:
+#      - "8084:8084"
+#  mongodb:
+#    image: mongo
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+
+#version: '3'
+#
+#services:
+#  front:
+#    build: ./front
+#    ports:
+#      - "8090:8090"
+#    networks:
+#      - my-network
+#
+#  gateway:
+#    build: ./gateway
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - my-network
+#    depends_on:
+#      - patient
+#      - note
+#
+#  patient:
+#    build: ./patient
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      - my-network
+#    depends_on:
+#      - mysql
+#
+#  note:
+#    build: ./note
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - my-network
+#
+#  report-risk:
+#    build: ./report-risk
+#    ports:
+#      - "8084:8084"
+#    networks:
+#      - my-network
+#
+#  mysql:
+#    image: mysql:latest
+#    container_name: mysql
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: medilabo
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: root
+#    networks:
+#      - my-network
+#
+#networks:
+#  my-network:
+#    driver: bridge

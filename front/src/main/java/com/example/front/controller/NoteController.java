@@ -16,7 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Controller
-@FeignClient(name= "note", url = "localhost:8080")
+//@FeignClient(name= "note", url = "localhost:8080")
+@FeignClient(name = "note", url = "http://note-container:8080")
 public class NoteController {
 
     @Value("${gateway.url}"+ "/note")

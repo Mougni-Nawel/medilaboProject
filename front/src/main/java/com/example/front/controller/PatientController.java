@@ -16,7 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Controller
-@FeignClient(name="patient", url = "localhost:8080")
+//@FeignClient(name="patient", url = "localhost:8080")
+@FeignClient(name = "patient", url = "http://localhost:8080/patient")
 public class PatientController {
 
     @Value("${gateway.url}"+"/patient")
@@ -24,6 +25,9 @@ public class PatientController {
 
     @Value("${gateway.url}"+ "/note")
     private String noteUrl;
+
+    @Value("${gateway.url}"+"/diagnostic/reportRisk/")
+    private String diagnosticUrl;
 
     private final RestTemplate restTemplate;
 
@@ -54,7 +58,11 @@ public class PatientController {
         ResponseEntity<List<NoteBean>> responseEntityNote = restTemplate.exchange(noteUrl+"/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<List<NoteBean>>() {});
         List<NoteBean> noteList = responseEntityNote.getBody();
 
+        ResponseEntity<String> responseEntityDiagnostic = restTemplate.exchange(diagnosticUrl+id, HttpMethod.GET, null, new ParameterizedTypeReference<String>() {});
+        String diagnostic = responseEntityDiagnostic.getBody();
+
         model.addAttribute("notesList", noteList);
+        model.addAttribute("diagnostic", diagnostic);
         System.out.println("CONSOLE ; "+noteList);
 
         model.addAttribute("patient", patient);

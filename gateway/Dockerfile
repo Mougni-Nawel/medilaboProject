@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy Maven configuration and dependencies
 COPY pom.xml .
-RUN mvn dependency:go-offline
+#RUN mvn dependency:go-offline
 
 # Copy source code and build the application
 COPY src src
