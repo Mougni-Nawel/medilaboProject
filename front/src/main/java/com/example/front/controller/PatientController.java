@@ -17,7 +17,8 @@ import java.util.List;
 
 @Controller
 //@FeignClient(name="patient", url = "localhost:8080")
-@FeignClient(name = "patient", url = "http://localhost:8080/patient")
+//@FeignClient(name = "patient", url = "http://localhost:8080/patient")
+@FeignClient(name = "patient", url = "http://gateway-container:8080/patient")
 public class PatientController {
 
     @Value("${gateway.url}"+"/patient")
@@ -39,6 +40,7 @@ public class PatientController {
 
     @GetMapping("/patients")
     public String getAllPatients(Model model){
+        System.out.println("IN CONTROLLER PATIENT FROM FRONT");
 
         ResponseEntity<List<PatientBean>> responseEntity = restTemplate.exchange(patientUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<PatientBean>>() {});
         List<PatientBean> patientsList = responseEntity.getBody();

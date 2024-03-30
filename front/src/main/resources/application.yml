@@ -6,4 +6,4 @@ spring:
     name: frontend
 
 gateway:
-  url: http://localhost:8080
+  url: http://gateway-container:8080
