@@ -43,7 +43,6 @@
         color: #333;
     }
 
-    /* Add more styles as needed for additional patient details */
 
 </style>
 <body>
@@ -88,12 +87,7 @@
 <!--        Ajouter une note -->
         <form th:action="@{/note/add}" th:object="${newNote}" method="post">
             <input name="patId" type="hidden" th:value="${patientData.id}" />
-            <select name="patient">
-                <option th:value="TestBordeline" th:text="Bordeline"></option>
-                <option th:value="TestInDanger" th:text="InDanger"></option>
-                <option th:value="TestEarlyOnset" th:text="Earlyonset"></option>
-                <option th:value="TestNone" th:text="None"></option>
-            </select>
+            <input name="patient" type="hidden" th:value="${patientData.lastname}" />
             <br>
             <textarea name="note" rows="4" cols="50"></textarea><br>
             <input type="submit" value="Add Note">

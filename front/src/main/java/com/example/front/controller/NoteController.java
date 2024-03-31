@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Controller
-//@FeignClient(name= "note", url = "localhost:8080")
 @FeignClient(name = "note", url = "http://gateway-container:8080/note")
 public class NoteController {
 
@@ -31,16 +31,12 @@ public class NoteController {
         this.restTemplate = restTemplate;
     }
 
-    //@GetMapping("/patients/{id}")
-    public String getAllNotes(Model model, @PathVariable int id){
+    public List<NoteBean> getAllNotes(Model model, @PathVariable int id){
 
-        ResponseEntity<List<NoteBean>> responseEntity = restTemplate.exchange(noteUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<NoteBean>>() {});
+        ResponseEntity<List<NoteBean>> responseEntity = restTemplate.exchange(noteUrl+"/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<List<NoteBean>>() {});
         List<NoteBean> noteList = responseEntity.getBody();
 
-        model.addAttribute("notesList", noteList);
-        System.out.println("CONSOLE ; "+noteList);
-
-        return "patient/patient";
+        return noteList;
 
     }
 

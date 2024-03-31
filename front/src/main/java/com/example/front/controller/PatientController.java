@@ -2,6 +2,7 @@ package com.example.front.controller;
 
 import com.example.front.bean.NoteBean;
 import com.example.front.bean.PatientBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,6 +35,9 @@ public class PatientController {
 
     private PatientBean patientBean;
 
+    @Autowired
+    private NoteController noteController;
+
     public PatientController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -57,15 +61,17 @@ public class PatientController {
         ResponseEntity<PatientBean> responseEntity = restTemplate.exchange(patientUrl+"/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<PatientBean>() {});
         PatientBean patient = responseEntity.getBody();
 
-        ResponseEntity<List<NoteBean>> responseEntityNote = restTemplate.exchange(noteUrl+"/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<List<NoteBean>>() {});
-        List<NoteBean> noteList = responseEntityNote.getBody();
+        //ResponseEntity<List<NoteBean>> responseEntityNote = restTemplate.exchange(noteUrl+"/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<List<NoteBean>>() {});
+//        List<NoteBean> noteList = responseEntityNote.getBody();
+        List<NoteBean> noteList = noteController.getAllNotes(model, id);
 
-        ResponseEntity<String> responseEntityDiagnostic = restTemplate.exchange(diagnosticUrl+id, HttpMethod.GET, null, new ParameterizedTypeReference<String>() {});
+        ResponseEntity<String> responseEntityDiagnostic = restTemplate.exchange(diagnosticUrl+id, HttpMethod.GET, null, String.class);
         String diagnostic = responseEntityDiagnostic.getBody();
+        System.out.println("DIAGOGO : "+diagnostic);
 
         model.addAttribute("notesList", noteList);
         model.addAttribute("diagnostic", diagnostic);
-        System.out.println("CONSOLE ; "+noteList);
+        System.out.println("CONSOLE 1 ; "+diagnostic);
 
         model.addAttribute("patient", patient);
 
