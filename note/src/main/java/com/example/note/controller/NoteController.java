@@ -28,9 +28,8 @@ public class NoteController {
         if (notes != null) {
             return notes;
         } else {
-            // Handle the case where the service returns null (log or throw an exception)
             log.error("findAllNotes returned null");
-            return Collections.emptyList(); // or throw an exception, depending on your requirements
+            return Collections.emptyList();
         }
 
     }

@@ -42,23 +42,19 @@ public class NoteControllerTest {
 
     @Test
     public void testFindAllNotes() {
-        // Arrange
         List<Note> expectedNotes = Arrays.asList(
                 new Note(1, "John", "Note 1"),
                 new Note(2, "Jane", "Note 2")
         );
         when(service.getAllNote()).thenReturn(expectedNotes);
 
-        // Act
         List<Note> actualNotes = noteController.findAllNotes();
 
-        // Assert
         Assertions.assertEquals(expectedNotes, actualNotes);
     }
 
     @Test
     public void testGetPatient() {
-        // Arrange
         int patientId = 1;
         List<Note> expectedNotes = Arrays.asList(
                 new Note(patientId, "John", "Note 1"),
@@ -66,63 +62,49 @@ public class NoteControllerTest {
         );
         when(service.getNotesByPatient(patientId)).thenReturn(expectedNotes);
 
-        // Act
         List<Note> actualNotes = noteController.getPatient(patientId);
 
-        // Assert
         assertEquals(expectedNotes, actualNotes);
     }
 
     @Test
     public void testAddNote() {
-        // Arrange
         Note noteToAdd = new Note(1, "John", "New note");
         when(service.saveNote(noteToAdd)).thenReturn(noteToAdd);
 
-        // Act
         Note addedNote = noteController.addNote(noteToAdd);
 
-        // Assert
         assertEquals(noteToAdd, addedNote);
     }
 
     @Test
     public void testUpdateNote() {
-        // Arrange
         int noteId = 1;
         Note noteToUpdate = new Note(noteId, "John", "Updated note");
         when(service.updateNote(noteToUpdate)).thenReturn(noteToUpdate);
 
-        // Act
         Note updatedNote = noteController.updateNote(noteToUpdate, noteId);
 
-        // Assert
         assertEquals(noteToUpdate, updatedNote);
     }
 
     @Test
     public void testDeleteNote() {
-        // Arrange
         int noteId = 1;
 
-        // Act
         noteController.deleteNote(noteId);
 
-        // Assert
         verify(service, times(1)).deleteNote(noteId);
     }
 
     @Test
     public void testGetSymptomsFromNotesOfPatient() {
-        // Arrange
         int patientId = 1;
         Collection<String> expectedSymptoms = Arrays.asList("Fever", "Cough");
         when(service.getSymptomsFromNotesOfPatient(patientId)).thenReturn((List<String>) expectedSymptoms);
 
-        // Act
         Collection<String> actualSymptoms = noteController.getSymptomsFromNotesOfPatient(patientId);
 
-        // Assert
         assertEquals(expectedSymptoms, actualSymptoms);
     }
 

@@ -17,13 +17,13 @@ public class NoteApplication {
 		SpringApplication.run(NoteApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(NoteService noteService) {
-		return args -> {
-			// Inserting notes
-			noteService.insertNotes();
-		};
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner(NoteService noteService) {
+//		return args -> {
+//			// Inserting notes
+//			noteService.insertNotes();
+//		};
+//	}
 
 
 }

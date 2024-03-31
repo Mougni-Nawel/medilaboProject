@@ -12,6 +12,6 @@ public interface NoteRepository extends MongoRepository<Note, Integer> {
     List<Note> findByPatId(final int patId);
 
     @Query(value = "{'patId': ?0, 'note': {$regex: ?1}}", fields = "{patId:  1, patient:  1, note:  1}")
-    List<Note> findPatientAndSymptomFromNote(int patId, Symptoms symptom);
+    List<Note> findPatientAndSymptomFromNote(int patId, String symptom);
 
 }
