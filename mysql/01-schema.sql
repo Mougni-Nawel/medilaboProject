@@ -1,5 +1,3 @@
--- // create table
--- DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
                                          `id` int NOT NULL AUTO_INCREMENT,
                                          `address` varchar(255) DEFAULT NULL,
@@ -9,4 +7,6 @@ CREATE TABLE IF NOT EXISTS `patient` (
     `lastname` varchar(255) DEFAULT NULL,
     `phone` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE `patient` AUTO_INCREMENT = 1;

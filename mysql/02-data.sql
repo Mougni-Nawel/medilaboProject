@@ -1,7 +1,6 @@
--- // insert into
-INSERT INTO `patient` (`id`, `address`, `birthdate`, `firstname`, `gender`, `lastname`, `phone`) VALUES
-    (2, '1 Brookside St', '1968-12-07 00:00:00.000000', 'Test', 'F', 'TestNone', '100-222-3333'),
-    (3, '2 High St', '1945-06-24 00:00:00.000000', 'Test', 'M', 'TestBorderline', '200-333-4444'),
-    (4, '3 Club Road', '2004-06-18 00:00:00.000000', 'Test', 'M', 'TestInDanger', '300-444-5555'),
-    (5, '4 Valley Dr', '2002-06-28 00:00:00.000000', 'Test', 'F', 'TestEarlyOnset', '400-555-6666');
-COMMIT;
+INSERT INTO `patient` (`lastname`, `firstname`, `birthdate`, `gender`, `address`, `phone`)
+VALUES
+    ('TestNone', 'Test', '1966-12-31', 'F', '1 Brookside St', '100-222-3333'),
+    ('TestBorderline', 'Test', '1945-06-24', 'M', '2 High St', '200-333-4444'),
+    ('TestInDanger', 'Test', '2004-06-18', 'M', '3 Club Road', '300-444-5555'),
+    ('TestEarlyOnset', 'Test', '2002-06-28', 'F', '4 Valley Dr', '400-555-6666');

@@ -43,15 +43,14 @@
         color: #333;
     }
 
-    /* Add more styles as needed for additional patient details */
 
     .header-container {
         display: flex;
-        align-items: center; /* Align items vertically in the center */
+        align-items: center;
     }
 
     .add-patient-link {
-        margin-left: auto; /* Move the link to the right, pushing the h1 to the left */
+        margin-left: auto;
     }
 
 
@@ -86,9 +85,7 @@
             <p th:text="${patient.lastname}"></p>
             <p th:text="${patient.gender}"></p>
             <p th:text="${#dates.format(patient.birthdate, 'dd/MM/yyyy')}"></p>
-<!--            </a>-->
         </div>
-        <!-- Add more patient details as needed -->
     </div>
 </div>
 

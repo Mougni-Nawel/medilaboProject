@@ -18,7 +18,7 @@ public class PatientProxyService {
 
     public Optional<PatientBean> fetchPatientFromId(int id) {
 
-        String noteUrl = "http://localhost:8080";
+        String noteUrl = "http://gateway-container:8080";
         String endpoint = "/patient/"+id;
 
         String url = noteUrl + endpoint;

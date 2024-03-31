@@ -39,23 +39,24 @@ public class ReportRiskService {
             int age = getAge(patientBean.getBirthdate());
 
             // None
-            if (symptomsOfPatient.isEmpty()) {
+            if ((symptomsOfPatient.isEmpty()) || (symptomsOfPatient.size() < 2)) {
                 return "None";
             }
+
             // Borderline
-            if (symptomsOfPatient.size() >= 2 && symptomsOfPatient.size() <= 5 && age >= 30) {
+            if ((symptomsOfPatient.size() >= 2) && (symptomsOfPatient.size() <= 5) && (age >= 30)) {
                 return "Borderline";
             }
             // In Danger
-            if (("M".equals(gender) && age < 30 && symptomsOfPatient.size() == 3) ||
-                    ("F".equals(gender) && age < 30 && symptomsOfPatient.size() == 4) ||
-                    (age >= 30 && (symptomsOfPatient.size() >= 6 && symptomsOfPatient.size() <= 7))) {
+            if (("M".equals(gender) && (age < 30) && (symptomsOfPatient.size() == 3)) ||
+                    ("F".equals(gender) && (age < 30) && (symptomsOfPatient.size() == 4)) ||
+                    ((age >= 30) && ((symptomsOfPatient.size() >= 6) && (symptomsOfPatient.size() <= 7)))) {
                 return "In Danger";
             }
             // Early Onset
-            if (("M".equals(gender) && age < 30 && symptomsOfPatient.size() >= 5) ||
-                    ("F".equals(gender) && age < 30 && symptomsOfPatient.size() >= 7) ||
-                    (age >= 30 && symptomsOfPatient.size() >= 8)) {
+            if (("M".equals(gender) && (age < 30) && (symptomsOfPatient.size() >= 5)) ||
+                    ("F".equals(gender) && (age < 30) && (symptomsOfPatient.size() >= 7)) ||
+                    ((age >= 30) && (symptomsOfPatient.size() >= 8))) {
                 return "Early onset";
             }
 
@@ -63,9 +64,12 @@ public class ReportRiskService {
             throw new NoSuchElementException("The patient with ID " + id + " was not found.");
         }
 
-        // If none of the conditions are met
-        return null;
+        return "None";
+
     }
+
+
+
 
 
 }

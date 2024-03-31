@@ -23,6 +23,10 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
+    .patient-card-container {
+        padding-left: 30px; /* Adjust padding as needed */
+    }
+
     .patient-card {
         margin-bottom: 20px;
         padding: 15px;
@@ -43,51 +47,87 @@
         color: #333;
     }
 
-    /* Add more styles as needed for additional patient details */
+    .patient-info {
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .patient-name {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .diagnostic-badge {
+        display: inline-block;
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border: 2px solid #007bff;
+        border-radius: 20px;
+        font-size: 0.9em;
+        margin-top: 5px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        vertical-align: top;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .note-text::before {
+        content: "\2022";
+        margin-right: 5px;
+        color: #333;
+    }
+
+    .label,
+    .value {
+        display: inline-block;
+    }
+
+    .label {
+        font-weight: bold;
+    }
 
 </style>
 <body>
 
 <div class="patient-list">
-    <h1>Patient: <span th:text="${patient.firstname}"></span></h1>
+    <div class="patient-info">
+        <div class="diagnostic-badge">
+            <span th:text="${diagnostic}"></span>
+        </div>
+    </div>
 
-    <div class="patient-card">
-        <div class="patient-info" th:href="@{/patient/${patient.id}}">
-            <h2 th:text="${patient.firstname}"></h2>
-            <p th:text="${patient.lastname}"></p>
-            <p th:text="${patient.gender}"></p>
-            <p th:text="${#dates.format(patient.birthdate, 'dd/MM/yyyy')}"></p>
-            <p th:text="${patient.address}"></p>
-            <p th:text="${patient.phone}"></p>
-            <p th:text="LOL"></p>
+    <div class="patient-card-container">
+        <a th:href="@{/patients}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+        </a>
+        </br>
+        </br>
 
+        <div class="patient-card">
+            <div class="patient-info" th:href="@{/patient/${patient.id}}">
+                <div class="label">Lastname : <p class="value" th:text="${patient.lastname}"></p></div></br>
+                <div class="label">Firstname : <p class="value" th:text="${patient.firstname}"></p></div></br>
+                <div class="label">Gender : <p class="value" th:text="${patient.gender}"></p></div></br>
+                <div class="label">Birthdate : <p class="value" th:text="${#dates.format(patient.birthdate, 'dd/MM/yyyy')}"></p></div></br>
+                <div class="label">Address : <p class="value" th:text="${patient.address}"></p></div></br>
+                <div class="label">Phone : <p class="value" th:text="${patient.phone}"></p></div></br>
 
-            <div th:each="note : ${notesList}">
-                <p th:text="LOL"></p>
+                <h2 style="text-decoration: underline;">Notes :</h2>
 
-                <div class="patient-info">
-                    <a th:href="@{/note/{id}(id=${note.patId})}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-                        </svg>
-                    </a>
-
-                    <h2 th:text="${note.patient}"></h2>
-                    <p th:text="${note.patId}"></p>
-                    <p th:text="${note.note}"></p>
-                    <!--            </a>-->
-                </div>
-                <div class="diagnostic-badge">
-                    <p>Diagnosis Data</p>
-                    <p>Data 1: <span th:text="${diagnostic}"></span></p>
+                <div th:each="note : ${notesList}">
+                    <div class="patient-info">
+                        <p class="note-text" th:text="${note.note}"></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Add more patient details as needed -->
-</div>
-</div>
+
 </div>
 
 </body>
