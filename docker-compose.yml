@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  note:
+    build: ./note
+    container_name: note-container
+    ports:
+      - "8082:8082"
+    networks:
+      - my-network
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      SPRING_DATA_MONGODB_DATABASE: NoteDB
+      SPRING_DATA_MONGODB_PORT: 27017
+    volumes:
+      - note-data:/data/db
+    restart: on-failure
+
+
+  patient-service:
+    build: ./patient
+    ports:
+      - "8081:8081"
+    networks:
+      - my-network
+    depends_on:
+      - mysqldb
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/medilabo"
+      - "SPRING_DATASOURCE_USERNAME=root"
+      - "SPRING_DATASOURCE_PASSWORD=password"
+    volumes:
+      - patient-data:/var/lib/mysql
+    restart: on-failure
+
+  report-risk:
+    build: ./report-risk
+    container_name: report-risk-container
+    ports:
+      - "8084:8084"
+    networks:
+      - my-network
+    restart: on-failure
+
+
+  gateway:
+    build: ./gateway
+    container_name: gateway-container
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    restart: on-failure
+
+
+  front:
+    build: ./front
+    container_name: front-container
+    ports:
+      - "8090:8090"
+    networks:
+      - my-network
+    restart: on-failure
+
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: "mongosh --eval 'db.runCommand(\"ping\").ok' localhost:27017 --quiet || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  mysqldb:
+    image: mysql:8.0.32
+    container_name: mysqldb
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=medilabo
+    ports:
+      - "3307:3306"
+    networks:
+      - my-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
+
+networks:
+  my-network:
+
+volumes:
+  mongo-data:
+  mysql-data:
+  note-data:
+  patient-data:

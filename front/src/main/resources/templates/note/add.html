@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{../../static/css/patient/patients.css}" />
+    <title>Medical Patients</title>
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .patient-list {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .patient-card {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #eaf8ff;
+        border: 1px solid #b3e0ff;
+        border-radius: 5px;
+    }
+
+    .patient-info {
+        margin-bottom: 10px;
+    }
+
+    h1, h2 {
+        color: #0066cc;
+    }
+
+    p {
+        color: #333;
+    }
+
+    input[type="submit"] {
+        background-color: #0066cc;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+
+</style>
+<body>
+
+<div class="patient-list">
+
+    <div class="patient-card">
+        <div class="patient-info">
+            <form action="/note/add" method="post">
+                <textarea name="note" rows="4" cols="50"></textarea><br>
+                <input type="submit" value="Add Note">
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: patient
+          uri: http://patient-service:8081
+          predicates:
+            - Path=/patient/**
+        - id: note
+          uri: http://note-container:8082
+          predicates:
+            - Path=/note/**
+        - id: diagnostic
+          uri: http://report-risk-container:8084
+          predicates:
+            - Path=/diagnostic/**

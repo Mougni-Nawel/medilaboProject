@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{../../static/css/patient/patients.css}" />
+    <title>Medical Patients</title>
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .patient-list {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .patient-card {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #eaf8ff;
+        border: 1px solid #b3e0ff;
+        border-radius: 5px;
+    }
+
+    .patient-info {
+        margin-bottom: 10px;
+    }
+
+    h1, h2 {
+        color: #0066cc;
+    }
+
+    p {
+        color: #333;
+    }
+
+
+</style>
+<body>
+<div class="patient-list">
+    <h1>Edit Patient: <span th:text="${patientData.firstname}"></span></h1>
+
+    <div class="patient-card">
+        <form method="post" action="#" th:action="@{/patients/update/{id}(id=${patientData.id})}" th:object="${updatePatient}">
+            <div class="patient-info">
+
+                <label for="firstname">First Name: </label>
+                <input type="text" th:value="${patientData.firstname}" id="firstname" name="firstname"/>
+                </br>
+
+                <label for="lastname">Last Name: </label>
+                <input type="text" th:value="${patientData.lastname}" id="lastname" name="lastname"/>
+                </br>
+
+                <label for="gender">Gender: </label>
+                <select th:field="*{gender}" id="gender" name="gender">
+                    <option value="F" th:selected="${patientData.gender == 'F'}" >Female</option>
+                    <option value="M" th:selected="${patientData.gender == 'M'}" >Male</option>
+                </select>
+                </br>
+
+                <label for="birthdate">Date of Birth: </label>
+                <input type="date" th:value="${#dates.format(patientData.birthdate, 'dd/MM/yyyy')}" id="birthdate" name="birthdate"/>
+                </br>
+
+                <label for="address">Address: </label>
+                <input type="text" th:value="${patientData.address}" id="address" name="address"/>
+                </br>
+
+                <label for="phone">Phone: </label>
+                <input type="text" th:value="${patientData.phone}" id="phone" name="phone"/>
+                </br>
+
+                <button type="submit">Update</button>
+            </div>
+        </form>
+
+<!--        Ajouter une note -->
+        <form th:action="@{/note/add}" th:object="${newNote}" method="post">
+            <input name="patId" type="hidden" th:value="${patientData.id}" />
+            <input name="patient" type="hidden" th:value="${patientData.lastname}" />
+            <br>
+            <textarea name="note" rows="4" cols="50"></textarea><br>
+            <input type="submit" value="Add Note">
+        </form>
+    </div>
+</div>
